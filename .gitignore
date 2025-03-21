@@ -1,0 +1,20 @@
+# LaTeX auxiliary and temporary files
+*.aux
+*.log
+*.toc
+*.lof
+*.lot
+*.fls
+*.vtc
+*.out
+*.synctex.gz
+*.fdb_latexmk
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+
+# Intermediate and temporary files
+*~
+*.tmp
+*.bak

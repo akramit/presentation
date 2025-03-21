@@ -50,6 +50,47 @@
 
 \section{Introduction}
 
+\begin{frame}{Hashing}
+	Collision Resoutions
+	\begin{itemize}
+		\item Chaining - Each slot points to pointer to a linked list which stores the keys
+		\item Open Addressing - All elements occupy the hash table itself
+%		\begin{itemize}
+%			\item Linear Probing - $h(k,i) = (h_1(k) + i) mod m$
+%			\item Quadratic Probing - 
+%			\item Double Hashing - $h(k,i) = (h_1(k) + ih_2(k)) mod m$
+%		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Definitions} 
+	\begin{block}{Probe Complexity}
+		The number of slots in the array 
+	\end{block}
+\end{frame}
+
+\begin{frame}{Results}
+	
+	\begin{enumerate}
+		\item Greedy
+		\begin{itemize}
+			\item Worst-case expected probe complexity $\calO(\log^2{\delta^{-1}})$
+			\item High-probability worst-case probe complexity $\calO(\log^2{\delta^{-1}} + \log{\log{n}})$
+			\begin{itemize}
+				\item Matching lower bound
+			\end{itemize}
+		\end{itemize}
+	\vspace{10mm}
+	\item Non-Greedy 
+	\begin{itemize}
+		\item Amortized probe complexity $\calO(1)$
+		\item Worst-case expected probe complexity $\calO(\log{\delta^{-1}})$
+		\begin{itemize}
+			\item Matching lower bound
+		\end{itemize}
+	\end{itemize}
+	\end{enumerate}
+\end{frame}
 
 \begin{frame}
 	\begin{block}{Theorem - Non-greedy Open-Addressing}
@@ -78,14 +119,20 @@
 	\end{block}
 \end{frame}
 
+\begin{frame}{Funnel Hashing}
+	\begin{figure}
+		
+	\end{figure}
+\end{frame}
+
 \begin{frame}
 	\begin{block}{Lemma}
 		For a given $i \in \alpha$, we have with probability $1 - \frac{1}{n^{\omega(1)}}$ that, after $2|A_i|$ insertion attempts have been made in $A_i$, fewer than $\frac{\delta}{64} |A_i|$ slots in $A_i$ remain unfilled.
 	\end{block}
 
 	\begin{block}{Lemma}
-	The number of keys inserted into $A_{\alpha + 1}$ is fewer than $\frac{\delta}{8}n$, with probability $1 - \frac{1}{n^{\omega(1)}}$.
-\end{block}
+		The number of keys inserted into $A_{\alpha + 1}$ is fewer than $\frac{\delta}{8}n$, with probability $1 - \frac{1}{n^{\omega(1)}}$.
+	\end{block}
 
 \end{frame}
 
@@ -97,7 +144,32 @@
 \end{frame}
 
 \begin{frame}{Algorithm for special array $A_{\alpha + 1}$}
-	
+	\begin{enumerate}
+		\item Split $A_{\alpha + 1}$ into two subarrays $B$ and $C$ of equal size. 
+		\item First, try to insert in $B$. Upon failure insert into $C$ ( insertion to $C$ is guaranteed to succeed with high probability)
+		\item $B$ is implemented as a uniform probing table, and we give up searching through $B$ after $\log{\log{n}}$ attempts.
+		\item $C$ is implemented as a two-choice table with buckets of size $2\log{\log{n}}$. 
+	\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Probe Complexity of $A_{\alpha + 1}$}
+	Complexity of inserting into $B$ - 
+	\begin{enumerate}
+		\item $B$ has size $A_{\alpha + 1}/2 \ge \delta n/4$, so load factor never exceeds $1/2$. 
+		\item Each insertion makes $\log{\log{n}}$, each of which has success probability of $1/2$. 
+		\item Thus, expected number of probles is $\calO(1)$
+		\item Probability that insertion fails after all attempts is $1/2^{\log{\log{n}}} \le 1/ \log{n}$.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Probe Complexity of $A_{\alpha + 1}$}
+	Complexity of inserting into $C$ - 
+	\begin{enumerate}
+		\item Recall, $C$ is implemented as a two choice table with buckets of size $2\log{\log{n}}$
+		\item From Lemma we have that, with high probability, no bucket in $C$ overflows. 
+		\item Expected time of each insertion in $C$ is at most $o(1)$.
+	\end{enumerate}
 \end{frame}
 
 \section{Funnel Hashing}
