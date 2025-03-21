@@ -1,0 +1,172 @@
+\documentclass{beamer}
+
+\usepackage{enumerate}
+\usepackage[utf8x]{inputenc}
+%\usepackage{default}
+\usepackage{hyperref}
+\usepackage{graphicx,wasysym}
+\usepackage{subfigure}
+\usepackage{fixltx2e}%for subscript superscript
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{algorithmic}
+%\usepackage[lined,boxed]{algorithm2e}
+%\usepackage[linesnumbered,vlined,portugues]{algorithm2e} 
+
+
+
+\input{includes.tex}
+\usetheme{Boadilla} % Taken from Overleaf
+
+
+%\usetheme{Berlin} %writes content horizontally on top
+%\setbeamertemplate{page number in head/foot}[totalframenumber] %gives slide number
+
+
+
+
+
+\setbeamercolor{title}{fg=red!40!black}
+%\setbeamercolor{title}{fg=red!40!black,bg=green!40!white}
+
+\title{ \sc \color{blue}{Optimal Bounds for Open Addressing Without Reordering}}
+\subtitle{Martin Farach-Colton , Andrew Krapivin , William Kuszmaul}
+\author{Presented by - Amit Roy }
+\institute{}
+% NUS - \date{August 21,  2023}
+\date{March 27, 2025}
+
+
+
+\begin{document}
+ 
+\begin{frame}
+\titlepage
+\end{frame} 
+
+
+
+\section{Introduction}
+
+
+\begin{frame}
+	\begin{block}{Theorem - Non-greedy Open-Addressing}
+	Let $n \in \mathbb{N}$ and $\delta \in(0, 1)$ be parameters such that $\delta > 
+	\calO(1/n)$. There exists an open-addressing hash table that supports $n - \floor{\delta n}$ insertions in an array of size $n$, that does not reorder items after they are inserted, and that oﬀers
+	\begin{itemize}
+		\item amortized expected probe complexity $O(1)$
+		\item worst-case expected probe complexity $\calO(log \delta^{-1})$, and
+		\item worst-case expected
+		insertion time $\calO(log \delta^{-1})$.
+	\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\begin{block}{Theorem - Greedy Open-Addressing}
+		Let $n \in \mathbb{N}$ and $\delta \in(0, 1)$ be parameters such that $\delta > 
+		\calO(1/n^{o(1)})$.
+			 There exists a greedy open-addressing strategy that supports $n - \floor{\delta n}$ insertions that has 
+			\begin{itemize}
+				\item worst-case expected probe complexity (and insertion time) - $\calO(\log^2{\delta^{-1}} )$ 
+				\item worst-case probe complexity over all insertions - $\calO(\log^2{\delta^{-1}} + \log{\log{n}})$, with prob $1- 1/poly(n)$, 
+				\item amortized expected probe complexity - $\calO(\log{\delta^{-1}})$
+			\end{itemize}
+		
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\begin{block}{Lemma}
+		For a given $i \in \alpha$, we have with probability $1 - \frac{1}{n^{\omega(1)}}$ that, after $2|A_i|$ insertion attempts have been made in $A_i$, fewer than $\frac{\delta}{64} |A_i|$ slots in $A_i$ remain unfilled.
+	\end{block}
+
+	\begin{block}{Lemma}
+	The number of keys inserted into $A_{\alpha + 1}$ is fewer than $\frac{\delta}{8}n$, with probability $1 - \frac{1}{n^{\omega(1)}}$.
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}
+	\begin{block}{Lemma: Power of two choices}
+		If $m$ balls are placed into $n$ bins by choosing two bins uniformly at random for each ball and placing the ball into the emptier of the two bins, then the maximum load of any bin is $m/n + \log{\log{n}} + \calO(1)$ with high probability in $n$.
+	\end{block}
+\end{frame}
+
+\begin{frame}{Algorithm for special array $A_{\alpha + 1}$}
+	
+\end{frame}
+
+\section{Funnel Hashing}
+
+%\begin{frame}{Algorithm}
+%	\begin{figure}
+%	\begin{algorithm}
+%		\caption{An algorithm with caption}\label{alg:two}
+%		\KwData{$n \geq 0$}
+%		\KwResult{$y = x^n$}
+%		$y \gets 1$\;
+%		$X \gets x$\;
+%		$N \gets n$\;
+%		\While{$N \neq 0$}{
+%			\eIf{$N$ is even}{
+%				$X \gets X \times X$\;
+%				$N \gets \frac{N}{2} $
+%			}{\If{$N$ is odd}{
+%					$y \gets y \times X$\;
+%					$N \gets N - 1$\;
+%				}
+%			}
+%		}
+%	\end{algorithm}
+%\end{figure}
+%
+%\end{frame}
+\begin{frame}{Algorithm}
+	\begin{center}
+		
+	\begin{algorithmic}[1]
+		\STATE \textbf{Input:} $n \geq 0$
+		\STATE \textbf{Output:} $y = x^n$
+		\STATE $y \gets 1$
+		\STATE $X \gets x$
+		\STATE $N \gets n$
+		\WHILE{$N \neq 0$}
+		\IF{$N$ is even}
+		\STATE $X \gets X \times X$
+		\STATE $N \gets \frac{N}{2}$
+		\ELSE
+		\STATE $y \gets y \times X$
+		\STATE $N \gets N - 1$
+		\ENDIF
+		\ENDWHILE
+	\end{algorithmic}
+\end{center}
+\end{frame}
+
+\begin{frame}
+{\Large List of Publications }
+\begin{enumerate}
+\item {\color{blue}{Amit Roy and Jayalal Sarma}}.  On Alternation, VC-dimension and $k$-fold Union of Sets. Proceedings in 11th {\em European Conference on Combinatorics, Graph Theory and Applications} (EUROCOMB 2021), Sep 6-10, 2021, Barcelona 
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}
+\begin{center}
+{\sc \LARGE Thoughts and Questions ?} \\
+\vspace{3cm}
+{\sc \large Thanks} 
+\end{center}
+\end{frame}
+
+
+%%Bibliography
+
+\bibliographystyle{alpha}
+\bibliography{VCbib}
+
+\end{document}
