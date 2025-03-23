@@ -12,6 +12,7 @@
 \usepackage{setspace}
 \usepackage{xcolor}
 \usepackage{algorithmic}
+\usepackage{caption}
 %\usepackage[lined,boxed]{algorithm2e}
 %\usepackage[linesnumbered,vlined,portugues]{algorithm2e} 
 
@@ -19,7 +20,7 @@
 
 \input{includes.tex}
 \usetheme{Boadilla} % Taken from Overleaf
-
+\graphicspath{ {./images/} }
 
 %\usetheme{Berlin} %writes content horizontally on top
 %\setbeamertemplate{page number in head/foot}[totalframenumber] %gives slide number
@@ -50,10 +51,21 @@
 
 \section{Introduction}
 
-\begin{frame}{Hashing}
-	Collision Resoutions
+\begin{frame}{Hash Table}
 	\begin{itemize}
-		\item Chaining - Each slot points to pointer to a linked list which stores the keys
+		\item Support dictionary operations - {\sc Insert, search} and {\sc delete} 
+		\item Uses a hash function $h:[u]\to [m]$ to index keys
+	\end{itemize}
+
+\begin{figure}
+	\includegraphics[scale=0.5]{images/hashing.png}
+\end{figure}
+
+\end{frame}
+\begin{frame}
+	{\bf Collision Resolutions}
+	\begin{itemize}
+		\item Chaining - Each slot in the table is a pointer to a linked list which stores the keys
 		\item Open Addressing - All elements occupy the hash table itself
 %		\begin{itemize}
 %			\item Linear Probing - $h(k,i) = (h_1(k) + i) mod m$
@@ -63,10 +75,43 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Definitions} 
+\begin{frame}{Chaining vs Open-Addressing}
+	\centering
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{chaining.png}
+		\captionof{figure}{Chaining}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{open-addressing.png}
+		\captionof{figure}{Open Addressing}
+	\end{minipage}
+\footnote{Image Credit : Wikipedia}
+
+\end{frame}
+
+\begin{frame} {Definitions}
 	\begin{block}{Probe Complexity}
-		The number of slots in the array 
+		\begin{itemize}
+			\item The number of probes that an algorithm has to make to insert/search the key is called the probe complexity of the key.
+			\item For example, for a key $k$, if an algorithm probes $h_1(k), h_2(k), \ldots, h_t(k)$ to find an empty slot to insert the key, then the probe complexity of $k$ is $t$.
+		\end{itemize}
 	\end{block}
+
+\begin{block}{Uniform Probing}
+	To do
+\end{block}
+\end{frame}
+
+
+\begin{frame}{Greedy and Non-greedy Open-Addressing}
+	\begin{itemize}
+		\item {\bf Greedy :}  Any algorithm in which each element uses the first unoccupied position in its probe sequence.
+		\item {\bf Non-greedy :} May probe further before inserting the element in the hash table
+	\end{itemize}
+	
 \end{frame}
 
 \begin{frame}{Results}
@@ -92,24 +137,12 @@
 	\end{enumerate}
 \end{frame}
 
-\begin{frame}
-	\begin{block}{Theorem - Non-greedy Open-Addressing}
-	Let $n \in \mathbb{N}$ and $\delta \in(0, 1)$ be parameters such that $\delta > 
-	\calO(1/n)$. There exists an open-addressing hash table that supports $n - \floor{\delta n}$ insertions in an array of size $n$, that does not reorder items after they are inserted, and that oﬀers
-	\begin{itemize}
-		\item amortized expected probe complexity $O(1)$
-		\item worst-case expected probe complexity $\calO(log \delta^{-1})$, and
-		\item worst-case expected
-		insertion time $\calO(log \delta^{-1})$.
-	\end{itemize}
-	\end{block}
-\end{frame}
 
 \begin{frame}
 	\begin{block}{Theorem - Greedy Open-Addressing}
 		Let $n \in \mathbb{N}$ and $\delta \in(0, 1)$ be parameters such that $\delta > 
 		\calO(1/n^{o(1)})$.
-			 There exists a greedy open-addressing strategy that supports $n - \floor{\delta n}$ insertions that has 
+			 There exists a { \bf greedy} open-addressing strategy that supports $n - \floor{\delta n}$ insertions that has 
 			\begin{itemize}
 				\item worst-case expected probe complexity (and insertion time) - $\calO(\log^2{\delta^{-1}} )$ 
 				\item worst-case probe complexity over all insertions - $\calO(\log^2{\delta^{-1}} + \log{\log{n}})$, with prob $1- 1/poly(n)$, 
@@ -121,11 +154,30 @@
 
 \begin{frame}{Funnel Hashing}
 	\begin{figure}
-		
+		\includegraphics[scale=0.5]{funnel_hash.png}
 	\end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Funnel Hashing}
+	\includegraphics{insert}
+\end{frame}
+
+\begin{frame}{Funnel Hashing}
+	\includegraphics{insertion-attempt}
+\end{frame}
+
+
+\begin{frame}{Algorithm for special array $A_{\alpha + 1}$}
+	\begin{enumerate}
+		\item Split $A_{\alpha + 1}$ into two subarrays $B$ and $C$ of equal size. 
+		\item First, try to insert in $B$. Upon failure insert into $C$ ( insertion to $C$ is guaranteed to succeed with high probability)
+		\item $B$ is implemented as a uniform probing table, and we give up searching through $B$ after $\log{\log{n}}$ attempts.
+		\item $C$ is implemented as a two-choice table with buckets of size $2\log{\log{n}}$. 
+	\end{enumerate}
+	
+\end{frame}
+
+\begin{frame}{Proof}
 	\begin{block}{Lemma}
 		For a given $i \in \alpha$, we have with probability $1 - \frac{1}{n^{\omega(1)}}$ that, after $2|A_i|$ insertion attempts have been made in $A_i$, fewer than $\frac{\delta}{64} |A_i|$ slots in $A_i$ remain unfilled.
 	\end{block}
@@ -137,21 +189,13 @@
 \end{frame}
 
 
-\begin{frame}
+\begin{frame}{Proof}
 	\begin{block}{Lemma: Power of two choices}
 		If $m$ balls are placed into $n$ bins by choosing two bins uniformly at random for each ball and placing the ball into the emptier of the two bins, then the maximum load of any bin is $m/n + \log{\log{n}} + \calO(1)$ with high probability in $n$.
 	\end{block}
 \end{frame}
 
-\begin{frame}{Algorithm for special array $A_{\alpha + 1}$}
-	\begin{enumerate}
-		\item Split $A_{\alpha + 1}$ into two subarrays $B$ and $C$ of equal size. 
-		\item First, try to insert in $B$. Upon failure insert into $C$ ( insertion to $C$ is guaranteed to succeed with high probability)
-		\item $B$ is implemented as a uniform probing table, and we give up searching through $B$ after $\log{\log{n}}$ attempts.
-		\item $C$ is implemented as a two-choice table with buckets of size $2\log{\log{n}}$. 
-	\end{enumerate}
 
-\end{frame}
 
 \begin{frame}{Probe Complexity of $A_{\alpha + 1}$}
 	Complexity of inserting into $B$ - 
@@ -172,59 +216,30 @@
 	\end{enumerate}
 \end{frame}
 
-\section{Funnel Hashing}
 
-%\begin{frame}{Algorithm}
-%	\begin{figure}
-%	\begin{algorithm}
-%		\caption{An algorithm with caption}\label{alg:two}
-%		\KwData{$n \geq 0$}
-%		\KwResult{$y = x^n$}
-%		$y \gets 1$\;
-%		$X \gets x$\;
-%		$N \gets n$\;
-%		\While{$N \neq 0$}{
-%			\eIf{$N$ is even}{
-%				$X \gets X \times X$\;
-%				$N \gets \frac{N}{2} $
-%			}{\If{$N$ is odd}{
-%					$y \gets y \times X$\;
-%					$N \gets N - 1$\;
-%				}
-%			}
-%		}
-%	\end{algorithm}
-%\end{figure}
-%
-%\end{frame}
-\begin{frame}{Algorithm}
-	\begin{center}
-		
-	\begin{algorithmic}[1]
-		\STATE \textbf{Input:} $n \geq 0$
-		\STATE \textbf{Output:} $y = x^n$
-		\STATE $y \gets 1$
-		\STATE $X \gets x$
-		\STATE $N \gets n$
-		\WHILE{$N \neq 0$}
-		\IF{$N$ is even}
-		\STATE $X \gets X \times X$
-		\STATE $N \gets \frac{N}{2}$
-		\ELSE
-		\STATE $y \gets y \times X$
-		\STATE $N \gets N - 1$
-		\ENDIF
-		\ENDWHILE
-	\end{algorithmic}
-\end{center}
+
+\begin{frame} {Other Results}
+	1. {\bf Elastic Hashing}
+	\begin{block}{Theorem - Non-greedy Open-Addressing}
+		Let $n \in \mathbb{N}$ and $\delta \in(0, 1)$ be parameters such that $\delta > 
+		\calO(1/n)$. There exists an open-addressing hash table that supports $n - \floor{\delta n}$ insertions in an array of size $n$, that does not reorder items after they are inserted, and that oﬀers -
+		\begin{itemize}
+			\item amortized expected probe complexity $O(1)$
+			\item worst-case expected probe complexity $\calO(log \delta^{-1})$, and
+			\item worst-case expected
+			insertion time $\calO(log \delta^{-1})$.
+		\end{itemize}
+	\end{block}
 \end{frame}
 
-\begin{frame}
-{\Large List of Publications }
-\begin{enumerate}
-\item {\color{blue}{Amit Roy and Jayalal Sarma}}.  On Alternation, VC-dimension and $k$-fold Union of Sets. Proceedings in 11th {\em European Conference on Combinatorics, Graph Theory and Applications} (EUROCOMB 2021), Sep 6-10, 2021, Barcelona 
-\end{enumerate}
+
+\begin{frame}{Other Results}
+	2. {\bf Lower Bounds}
+	\begin{block}{Theorem - Lower Bound for Greedy Algorithms}
+			Let $n \in \mathbb{N}$ and $\delta \in(0, 1)$ be parameters such that $\delta$ is an inverse power of two. Consider any greedy open-addressed hash table with capacity $n$. If $(1-\delta)n$ elements are inserted into the hash table, then the final insertion must take expected time $\Omega(\log^2{\delta^{-1}})$.
+	\end{block}
 \end{frame}
+
 
 
 \begin{frame}
@@ -239,6 +254,6 @@
 %%Bibliography
 
 \bibliographystyle{alpha}
-\bibliography{VCbib}
+%\bibliography{VCbib}
 
 \end{document}
