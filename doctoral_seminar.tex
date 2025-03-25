@@ -61,6 +61,8 @@
 	\includegraphics[scale=0.5]{images/hashing.png}
 \end{figure}
 
+%\footnote{Image Credit: Wikipedia}
+
 \end{frame}
 \begin{frame}
 	{\bf Collision Resolutions}
@@ -101,7 +103,7 @@
 	\end{block}
 
 \begin{block}{Uniform Probing}
-	To do
+	For a given key $k$, the probe sequence - $h_1(k), h_2(k), \ldots, h_t(k)$ is a random permutation of $\set{1, 2, \ldots,n }$
 \end{block}
 \end{frame}
 
@@ -119,7 +121,7 @@
 	\begin{enumerate}
 		\item Greedy
 		\begin{itemize}
-			\item Worst-case expected probe complexity $\calO(\log^2{\delta^{-1}})$
+			\item Worst-case expected probe complexity $\calO(\log^2{\delta^{-1}})$ %(\alert{prev only $\calO()$} )
 			\item High-probability worst-case probe complexity $\calO(\log^2{\delta^{-1}} + \log{\log{n}})$
 			\begin{itemize}
 				\item Matching lower bound
@@ -129,7 +131,7 @@
 	\item Non-Greedy 
 	\begin{itemize}
 		\item Amortized probe complexity $\calO(1)$
-		\item Worst-case expected probe complexity $\calO(\log{\delta^{-1}})$
+		\item Worst-case expected probe complexity $\calO(\log{\delta^{-1}})$ %(\alert{prev $\calO()$})
 		\begin{itemize}
 			\item Matching lower bound
 		\end{itemize}
@@ -216,6 +218,15 @@
 	\end{enumerate}
 \end{frame}
 
+\begin{frame}{Proof}
+	\begin{itemize}
+		\item Total $\alpha$ arrays , and cutoff probes $\beta$ in each $A_i$ 
+		\item Probe complexity of each insertion - $\beta\alpha + f(A_{\alpha + 1})$ 
+		\item Assume $\delta \le \frac{1}{8}$. Let $\alpha = \lceil 4\log{\delta^{-1} + 10} \rceil$ and $\beta = \lceil 2\log{\delta^{-1}}\rceil$
+		\item Probe Complexity - $\calO(\log^2{\delta^{-1}}) + f(A_{\alpha+1})$ 
+		\item  Hence, $\calO(\log^2{\delta^{-1}})$ in worst-case expected probe  complexity and a high-probability worst-case probe complexity of $\calO(\log^2{\delta^{-1}} + \log{\log{n}})$.
+	\end{itemize}
+\end{frame}
 
 
 \begin{frame} {Other Results}
