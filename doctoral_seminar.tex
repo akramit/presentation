@@ -180,11 +180,11 @@
 \end{frame}
 
 \begin{frame}{Proof}
-	\begin{block}{Lemma}
+	\begin{block}{Lemma 1}
 		For a given $i \in \alpha$, we have with probability $1 - \frac{1}{n^{\omega(1)}}$ that, after $2|A_i|$ insertion attempts have been made in $A_i$, fewer than $\frac{\delta}{64} |A_i|$ slots in $A_i$ remain unfilled.
 	\end{block}
 
-	\begin{block}{Lemma}
+	\begin{block}{Lemma 2}
 		The number of keys inserted into $A_{\alpha + 1}$ is fewer than $\frac{\delta}{8}n$, with probability $1 - \frac{1}{n^{\omega(1)}}$.
 	\end{block}
 
@@ -216,6 +216,10 @@
 		\item From Lemma we have that, with high probability, no bucket in $C$ overflows. 
 		\item Expected time of each insertion in $C$ is at most $o(1)$.
 	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Analysis}
+	\includegraphics[scale=0.3]{analysis}
 \end{frame}
 
 \begin{frame}{Proof}
@@ -251,7 +255,43 @@
 	\end{block}
 \end{frame}
 
+\begin{frame}{More Proofs}
+	\begin{block}{Lemma 2}
+		The number of keys inserted into $A_{\alpha + 1}$ is fewer than $\frac{\delta}{8}n$, with probability $1 - \frac{1}{n^{\omega(1)}}$.
+	\end{block}
+\begin{itemize}
+	\item From {\bf Lemma 1}, every {\em fully-explored} $A_i$ is at least $(1-\delta / 64)$ full, where {\em fully-explored} means at least $2|A_i|$ insertion attempts made to $A_i$.
+	\item Let $\lambda \in [\alpha]$ be largest index s.t. $A_{\lambda}$ receives fewer than $2|A_{\lambda}|$ insertion attempts. 
+	\item {\bf Case 1: $\lambda \le \alpha - 10$} 
+	\begin{itemize}
+		\item For $i>\lambda$, $A_i$ contains at least $|A_i|(1-\delta/64)$ keys. 
+		\item Total keys in $i \ge \lambda$ : $(1-\delta/64) \sum_{i=\lambda+1}^{\alpha}|A_i| \ge 2.5(1-\delta/64)|A_{\lambda}|$
+		\item This contradicts that $A_{\lambda}$ received at most $2|A_{\lambda}|$ insertion attempts.
+	\end{itemize}  
+\end{itemize}
+\end{frame}
 
+\begin{frame}{Lemma 2 Proof Contd}
+	\begin{itemize}
+		\item {\bf Case 2 : $\alpha -10 < \lambda \le \alpha$} 
+		\begin{itemize}
+			\item Fewer than $A_{\alpha -10} < n \delta/8$ keys are attempted to be inserted in $A_i$ with $i\ge \lambda$. Hence, we are good.
+		\end{itemize}
+	\item {\bf Case 3: $\lambda = null$} 
+	\begin{itemize}
+		\item Each $A_i$ has at most $\delta |A_i|/64$ empty slots.
+		\item Total empty slots at the end of insertion : $|A_{\alpha+1}| + \sum_{1}^{\alpha}\frac{\delta|A_i|}{64} < n\delta$
+		\item This contradicts that after $n(1-\delta)$ insertions, there are at least $n\delta$ slots empty.
+	\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Proof of Lemma 1}
+		\begin{block}{Lemma 1}
+		For a given $i \in \alpha$, we have with probability $1 - \frac{1}{n^{\omega(1)}}$ that, after $2|A_i|$ insertion attempts have been made in $A_i$, fewer than $\frac{\delta}{64} |A_i|$ slots in $A_i$ remain unfilled.
+	\end{block}
+
+\end{frame}
 
 \begin{frame}
 \begin{center}
