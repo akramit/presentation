@@ -121,7 +121,11 @@
 	\begin{enumerate}
 		\item Greedy
 		\begin{itemize}
-			\item Worst-case expected probe complexity $\calO(\log^2{\delta^{-1}})$ %(\alert{prev only $\calO()$} )
+			\item Amortized expected probe complexity - $\calO(\log{\delta^{-1}})$
+			\item Worst-case expected probe complexity $\calO(\log^2{\delta^{-1}})$
+			\begin{itemize}
+				\item \alert{Yao's conjecture of bound $\theta(\delta^{-1})$ proven false.}
+			\end{itemize} 
 			\item High-probability worst-case probe complexity $\calO(\log^2{\delta^{-1}} + \log{\log{n}})$
 			\begin{itemize}
 				\item Matching lower bound
