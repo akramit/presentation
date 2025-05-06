@@ -175,6 +175,10 @@
 	\includegraphics{insertion-attempt}
 \end{frame}
 
+\begin{frame}{Analysis}
+	\includegraphics[scale=0.3]{analysis}
+\end{frame}
+
 
 \begin{frame}{Algorithm for special array $A_{\alpha + 1}$}
 	\begin{enumerate}
@@ -198,11 +202,7 @@
 \end{frame}
 
 
-\begin{frame}{Proof}
-	\begin{block}{Lemma: Power of two choices}
-		If $m$ balls are placed into $n$ bins by choosing two bins uniformly at random for each ball and placing the ball into the emptier of the two bins, then the maximum load of any bin is $m/n + \log{\log{n}} + \calO(1)$ with high probability in $n$.
-	\end{block}
-\end{frame}
+
 
 
 
@@ -214,6 +214,12 @@
 		\item Thus, expected number of probles is $\calO(1)$
 		\item Probability that insertion fails after all attempts is $1/2^{\log{\log{n}}} \le 1/ \log{n}$.
 	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Proof - Insertion into $C$ of $A_{\alpha+1}$}
+	\begin{block}{Lemma: Power of two choices}
+		If $m$ balls are placed into $n$ bins by choosing two bins uniformly at random for each ball and placing the ball into the emptier of the two bins, then the maximum load of any bin is $m/n + \log{\log{n}} + \calO(1)$ with high probability in $n$.
+	\end{block}
 \end{frame}
 
 \begin{frame}{Probe Complexity of $A_{\alpha + 1}$}
